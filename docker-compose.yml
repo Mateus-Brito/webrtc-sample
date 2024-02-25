@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  turn-server:
+    build: ./turn/
+    container_name: turn-server
+    image: turn
+    ports:
+      - "3478:3478/tcp"
+      - "3478:3478/udp"
+    networks:
+      - webrtc
+
+  python-server:
+    build: ./python-server/
+    container_name: python-server
+    image: python-server
+    ports:
+      - "5004:5004"
+    networks:
+      - webrtc
+
+  react-client:
+    build: ./react-client/
+    container_name: react-client
+    image: react-client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react-client:/app
+    networks:
+      - webrtc
+
+networks:
+    webrtc:
